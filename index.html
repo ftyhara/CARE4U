@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CARE4U - Clinical Portal Console</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-blue-animated">
+
+    <div class="accessibility-deck">
+        <span class="acc-label">Console Access:</span>
+        <button class="acc-btn laser-btn" onclick="adjustFont('down')">A-</button>
+        <button class="acc-btn laser-btn" onclick="adjustFont('up')">A+</button>
+        <button class="acc-btn laser-btn contrast-toggle" onclick="toggleContrast()">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 18a6 6 0 1 0 0-12v12z" fill="currentColor"/></svg>
+            Contrast
+        </button>
+    </div>
+
+    <div id="sparkle-container"></div>
+    <div id="wave-overlay"></div>
+    <div id="notification" class="hidden glass-panel"></div>
+
+    <div id="login-screen" class="screen">
+        <div class="login-container-label">CARE4U - Next Gen Interactive Portal</div>
+        <div class="login-box glass-panel aura-glow">
+            <h2>LOGIN SCREEN</h2>
+            <h1>Welcome to CARE4U</h1>
+            <p class="subtitle">Your Virtual Radiology Companion</p>
+            
+            <div class="role-grid top-roles">
+                <button class="role-btn laser-btn" onclick="selectRole('peds', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="13" r="6"/><circle cx="6" cy="7" r="2.5"/><circle cx="18" cy="7" r="2.5"/><circle cx="9.5" cy="11.5" r="0.75"/><circle cx="14.5" cy="11.5" r="0.75"/><path d="M10 15.5 q2 1 4 0" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                    <span>Pediatric</span>
+                </button>
+                <button class="role-btn laser-btn" onclick="selectRole('patient', this)">
+                    <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4 21v-1a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v1"/></svg>
+                    <span>Adult</span>
+                </button>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Name">
+                <input type="password" id="password" placeholder="Password">
+            </div>
+            
+            <div class="role-grid mid-icons">
+                <button class="role-btn icon-widget-btn laser-btn" id="role-icon-student" onclick="selectRole('student', this)">
+                    <svg class="icon large-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20M4 19.5V3.5A2.5 2.5 0 0 1 6.5 1H20v16H6.5"/></svg>
+                </button>
+                <button class="role-btn icon-widget-btn laser-btn" id="role-icon-staff" onclick="selectRole('staff', this)">
+                    <svg class="icon large-icon" viewBox="0 0 24 24"><path d="M6 3h12M6 3v4a6 6 0 0 0 12 0V3M12 13v5a3 3 0 0 0 3 3h1a2 2 0 0 0 2-2v-1a2 2 0 0 0-2-2h-1"/><circle cx="15" cy="18" r="2"/></svg>
+                </button>
+            </div>
+
+            <div class="role-grid bottom-roles">
+                <button class="role-btn label-only-btn laser-btn" id="role-text-student" onclick="selectRole('student', this)">
+                    <span>Student</span>
+                </button>
+                <button class="role-btn label-only-btn laser-btn" id="role-text-staff" onclick="selectRole('staff', this)">
+                    <span>Staff</span>
+                </button>
+            </div>
+
+            <button class="main-login-btn glass-btn" onclick="executeLogin()">Enter</button>
+        </div>
+    </div>
+
+    <div id="dashboard-screen" class="screen hidden">
+        <div class="dashboard-title-label">CARE4u</div>
+        
+        <header class="dashboard-header">
+            <div class="lofi-player glass-panel">
+                <div class="lofi-info">
+                    <svg class="icon float-anim" id="headphone-icon" viewBox="0 0 24 24"><path d="M3 14c0-4.97 4.03-9 9-9s9 4.03 9 9M3 14h3v4H3v-4zm15 0h3v4h-3v-4z"/></svg>
+                    <span>Calm Lo-Fi Beats</span>
+                    <div class="bars hidden" id="music-bars">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    </div>
+                </div>
+                <button onclick="toggleMusic()" id="music-btn" class="capsule-btn laser-btn">Play</button>
+                <div id="youtube-player" style="display: none;"></div>
+            </div>
+
+            <div class="header-actions">
+                <button class="capsule-btn laser-btn" id="global-vr-btn" onclick="connectVR()">
+                    <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="4"/><circle cx="7" cy="12" r="1.5"/><circle cx="17" cy="12" r="1.5"/><path d="M10 7l2 2 2-2"/></svg>
+                    <span id="global-vr-text">Connect VR</span>
+                </button>
+                
+                <button class="capsule-btn laser-btn" onclick="showQR()">
+                    <svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="3" width="6" height="6" rx="1"/><rect x="3" y="15" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 9h6v6H9z"/></svg>
+                    Hospital QR Code
+                </button>
+                <button class="capsule-btn text-btn laser-btn" onclick="logout()">Log Out</button>
+                <button class="square-icon-btn laser-btn" onclick="logout()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <div id="telemetry-extension-row" class="sub-header-row hidden"></div>
+
+        <div id="dashboard-content" class="content-grid"></div>
+    </div>
+
+    <div id="modal-overlay" class="hidden">
+        <div id="modal-content" class="modal-box glass-panel aura-glow"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+</body>
+</html>
